@@ -4,7 +4,7 @@ import Header from './Header/Header'
 import AuthPage from "./AuthPage/AuthPage";
 import RegistryPage from "./RegistryPage/RegistryPage";
 import CarsList from "./Cars/CarsList";
-
+import DriversList from "./Drivers/DriversList";
 
 const Routes = () => (
     <BrowserRouter>
@@ -13,6 +13,7 @@ const Routes = () => (
             <Route path='/' exact render={() => <AuthPage />}/>
             <Route path='/registration' render={() => <RegistryPage />}/>
             <Route path='/cars' render={() => <CarsList />}/>
+            <Route path='/drivers' render={() => <DriversList />}/>
             {/* <Route path='/cars/carInfo/:carId?' render={() => <CarInfo />}/>         */}
         </Switch>
     </BrowserRouter>
