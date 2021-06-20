@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip, Link } from '@material-ui/core';
+import { Button, Link } from '@material-ui/core';
 import s from"./Header.module.scss";
 import AccountIcon from '@material-ui/icons/AccountCircle';
 
@@ -14,16 +14,21 @@ const Header = (props) => {
                     <Link href={'/drivers'} className={s.nav}>
                        <div>Водители</div>
                     </Link>
+                    <Link href={'/waybills'} className={s.nav}>
+                       <div>Путевые листы</div>
+                    </Link>
                 </div>
-                <Link href={'/profile'}>
-                    <Tooltip title={'Профиль'}>
-                        <AccountIcon
-                            classes={s.account} 
-                            fontSize={'large'} 
-                            color={'action'} 
-                        />
-                    </Tooltip>
-                </Link>
+                <div className={s.profile}>
+                    <div>Владислав, Администратор</div>
+                    <div className={s.button}>
+                        <Button
+                         color="secondary"
+                         size={'small'}
+                        >
+                            Выйти
+                        </Button>
+                    </div>
+                </div>
             </div>
         </div>            
     )

@@ -80,7 +80,7 @@ const AuthPage = () =>  {
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/registration" variant="body2">
-                Вы не зарегистрированны? Регистрация
+                Вы не зарегистрированы? Регистрация
               </Link>
             </Grid>
           </Grid>

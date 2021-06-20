@@ -11,67 +11,31 @@ import {
     TableRow as Row, 
     Paper,
     Grid,
-    Button,
+    Button
 } from '@material-ui/core'
-import {toggleAnchor} from "../Redux/carsReducer";
+import AddDrawer from '../shared/Drawer/Drawer'
 import {compose} from "redux";
 import {connect} from "react-redux";
-import AddDrawer from '../shared/Drawer/Drawer'
-import { red } from '@material-ui/core/colors';
+import {toggleAnchor} from "../Redux/waybillsReducer";
 
-function createData(name, calories, fat, carbs, protein, insuranceDate) {
-  return { name, calories, fat, carbs, protein, insuranceDate };
-}
-
-
-const carsDataForDrawer = {
-  title: "Добавление автомобиля",
+const waybillsDataForDrawer = {
+  title: "Добавление путевого листа",
   placeholders: [
-    "Рег. знак",
-		"VIN",
-		"Тип ТС", 
-		"Модель ТС",
-		"Срок ТО до",
-		"Страховка до",
-    "Категория (A,B,C,D)",
-		"Год выпуска",
-		"Модель двигателя",
-		"Номер кузова",
-    "Мощность",
-		"Цвет",
-		"Объем двигателя",
-		"Производитель",
-		"Паспорт №",
-		"Когда выдан",
-		"Кем выдан",
-		"Собственник",
-		"Стоимость"
+    "Тип П/л",
+	"Номер П/л",
+	"Время выезда", 
+	"Время возврата",
+	"АТС",
+	"Водитель"
 ]} 
 
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3, 11),
-  createData('Donut', 452, 25.0, 51, 4.9, 22),
-  createData('Eclair', 262, 16.0, 24, 6.0, 22),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 22),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 22),
-  createData('Honeycomb', 408, 3.2, 87, 6.5, 22),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 22),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0, 22),
-  createData('KitKat', 518, 26.0, 65, 7.0, 22),
-  createData('Lollipop', 392, 0.2, 98, 0.0, 22),
-  createData('Marshmallow', 318, 0, 81, 2.0, 22),
-  createData('Nougat', 360, 19.0, 9, 37.0, 22),
-  createData('Oreo', 437, 18.0, 63, 4.0, 22),
-];
-
-
 const headFields = [
-  { id: 'regNumber',  label: 'Рег.знак' },
-  { id: 'vin',  label: 'VIN' },
-  { id: 'autoType',  label: 'Тип ТС' },
-  { id: 'autoModel',  label: 'Модель ТС' },
-  { id: 'maintenanceDate',  label: 'ГТО.до' },
-  { id: 'insuranceDate',  label: 'Стрх.до' },
+  { id: 'waybillType',  label: 'Тип П/л' },
+  { id: 'waybillNumber',  label: 'Номер П/л' },
+  { id: 'checkOutTime',  label: 'Время выезда' },
+  { id: 'timeOutTime',  label: 'Время возврата' },
+  { id: 'auto',  label: 'АТС' },
+  { id: 'driver',  label: 'Водитель' },
 ];
 
 function EnhancedTableHead(props) {
@@ -127,8 +91,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CarsList = ({toggleAnchor, anchor, cars}) => {
-  
+const WaybillsList = ({toggleAnchor, anchor, waybills}) => {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -142,8 +105,6 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
     setPage(0);
   };
 
-  const {regNumber,vin,autoType,autoModel,maintenanceDate,insuranceDate} = cars;
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -154,12 +115,12 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
           >
             <EnhancedTableHead
               classes={classes}
-              rowCount={cars.length}
+              rowCount={waybills.length}
             />
             <Body>
-              {cars
+              {waybills
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(({regNumber,vin,autoType,autoModel,maintenanceDate,insuranceDate}, index) => {
+                .map(({waybillType, waybillNumber, checkOutTime, timeOutTime, auto, driver}, index) => {
 
                   return (
                     <Row
@@ -167,29 +128,16 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
                       onClick={() => console.log('Hi there!')}
                     //   aria-checked={}
                       tabIndex={-1}
-                      key={regNumber}
                     //   selected={}
                     >
                       <Cell component="th" scope="row" className={classes.cell}>
-                        {regNumber}
+                        {waybillType}
                       </Cell>
-                      <Cell className={classes.cell}>{vin}</Cell>
-                      <Cell className={classes.cell}>{autoType}</Cell>
-                      <Cell className={classes.cell}>{autoModel}</Cell>
-                      <Cell className={classes.cell}>
-                        {maintenanceDate}
-                        {maintenanceDate === '20.06.2021' && 
-                        <span style={{color: 'red', marginLeft: '5px'}}>
-                          Просрочено
-                        </span>}
-                      </Cell>
-                      <Cell>
-                        {insuranceDate} 
-                        {insuranceDate === '20.10.2021' && 
-                        <span style={{color: 'red', marginLeft: '5px'}}>
-                          Просрочено
-                        </span>}
-                        </Cell>
+                      <Cell className={classes.cell}>{waybillNumber}</Cell>
+                      <Cell className={classes.cell}>{checkOutTime}</Cell>
+                      <Cell className={classes.cell}>{timeOutTime}</Cell>
+                      <Cell className={classes.cell}>{auto}</Cell>
+                      <Cell>{driver}</Cell>
                     </Row>
                   );
                 })}
@@ -199,7 +147,7 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
         <Pagination
           rowsPerPageOptions={[5, 10, 25]}
           labelRowsPerPage={'Выводить по'}
-          count={cars.length}
+          count={waybills.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -208,20 +156,18 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
       </Paper>
       <Grid container justify="flex-end">
         <Grid item>
-          {console.log(anchor)}
-            <Button
+            <Button 
               variant="contained"
               color="primary"
               size={'large'}
               onClick={() => toggleAnchor(true)}
-              className={classes.button}
-              >
-                Добавить автомобиль
+              className={classes.button}>
+                Добавить путевой лист
             </Button>
             <AddDrawer 
               toggleAnchor={toggleAnchor}
               anchor={anchor}
-              drawerData={carsDataForDrawer} 
+              drawerData={waybillsDataForDrawer} 
             />
         </Grid>  
       </Grid> 
@@ -231,12 +177,12 @@ const CarsList = ({toggleAnchor, anchor, cars}) => {
 
 const mapStateToProps = state => {
   return {
-    anchor: state.cars.anchor,
-    cars: state.cars.cars
+    anchor: state.waybills.anchor,
+    waybills: state.waybills.waybills
   }
 }
 
 export default compose(
   withRouter,
   connect(mapStateToProps, {toggleAnchor})
-)(CarsList);
+)(WaybillsList);

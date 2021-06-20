@@ -24,3 +24,17 @@
         color: white;
     }
 }
+
+.profile {
+    display: flex;
+    align-items: center;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 1.75;
+    font-size: 14px;
+    color: white;
+
+    .button {
+        margin: 2px 0 0 5px;
+    }
+}
